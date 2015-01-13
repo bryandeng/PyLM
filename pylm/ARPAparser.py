@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
 
-'''
-The script converts arpa file into dict structure.
-'''
 
-import sys
+def read_arpa(arpa_file):
+    arpa_dict = {}
 
+    with open(arpa_file, 'r') as f:
+        for line in f:
+            if line.rstrip() and not line.startswith('\\'):
+                if line.startswith('ngram '):
+                    n_max = int(line[6])
+                else:
+                    entry = line.rstrip().split('\t')
+                    if len(entry) == 3:
+                        arpa_dict[entry[1]] = (float(entry[0]),
+                                               float(entry[2]))
+                    else:
+                        arpa_dict[entry[1]] = (float(entry[0]), )
 
-def read_arpa(arpafile):
-    '''This function reads the arpa file and returns its dict representation'''
-    with open(arpafile, 'r') as f:
-        fdata = f.read()
-
-    arpa_lines = [l for l in fdata.splitlines() if len(l.split()) > 2]
-    arpa_dict = [dict({l.split()[1]: (l.split()[0], l.split()[2])})
-                 for l in arpa_lines]
-    return arpa_dict
-
-
-if __name__ == '__main__':
-    read_arpa(sys.argv[1])
-
+    return arpa_dict, n_max

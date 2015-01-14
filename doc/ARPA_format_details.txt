@@ -1,0 +1,20 @@
+First we look for the longest gram,say trigram, if the trigram exists, then the first number in ARFA n gram format is the probability of the w3 given the history of
+word w1 and w2. if the trigram doesn't exist, it simply backs off to the two bigrams and they are P(w3|w2) and P(w2|w1),and the back-off works in two ways:  when trigram
+w1,w2,w3 backing off to bigram w2,w3, one situation is if the bigram w1,w2 exists then the right number in ARFA n gram format as the weight W(w1,w2) is used to multiply
+the probability of back-off bigram p(w3|w2), the other is the when bigram history w1 and w2 doesn't exist then we just use the probability of P(w3|w2) directly. vice versa
+we treat the other back-off bigram w1,w2. If this bigram exists then we just simply use the conditional probability of the bigram ( 1st number in the ARFA format), if it
+doesn't exist then the bigram backs off to unigram w2 and use w1 as weight W(w1).
+
+w1,w2,w3 if exists, then the P(trigram)
+         if it doesn't exist,back off to bigram w1,w2 and bigram w2,w3 
+                   # bigram w2 w3
+			   if   history bigram w1 w2 exists then use weight (w1,w2) * P(w3|w2)
+                      	   else history bigram w1 w2 doesn’t exist, then just simply use the P(w3|w2)
+                   # bigram w1 2 
+		           if   bigram w1 w2 exists then use the probability p(w2|w1)
+			   else backs off to unigram w2 and use the weight (w1) to multiply p(w2)		
+
+Attention:
+ the ARPA format is  conditional probability  n-gram   weight.
+1. both digits are negative
+2. when multiplying the probabilities, add up 

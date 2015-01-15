@@ -1,0 +1,13 @@
+Structure of prob_dict (probability dictionary):
+
+
+A Python dictionary with the following key:value pairs:
+
+{string: (log10_prob, log10_backoff (if there is))}
+
+"string" is a Python str like "PyLM is good".
+Note that lists can't be used as keys for a Python dict, so convert a word
+list to str using "tokens2str()" function in misc submodule before querying.
+
+
+This format is consistent throughout the whole PyLM module.

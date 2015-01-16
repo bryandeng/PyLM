@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
 
 from .ARPAparser import read_arpa
-from .misc import tokenize, prob_backoff
+from .misc import tokenize, handle_oov
+from .probability import prob_backoff

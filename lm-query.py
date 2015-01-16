@@ -2,7 +2,6 @@
 
 import argparse
 import os
-import shelve
 import sys
 
 import pylm
@@ -14,20 +13,15 @@ parser.add_argument('--version', action='version', version='0.1a')
 args = parser.parse_args()
 
 arpa_file = args.arpa_file
-arpa_dict_filename = arpa_file + '.dict'
 if not os.path.exists(arpa_file):
     parser.error('no such ARPA file.')
-
-if os.path.exists(arpa_dict_filename):
-    with shelve.open(arpa_dict_filename, 'r') as db:
-        arpa_dict, max_n = db['arpa_dict'], db['max_n']
 else:
-    arpa_dict, max_n = pylm.read_arpa(arpa_file)
-    with shelve.open(arpa_dict_filename, 'c') as db:
-        db['arpa_dict'] = arpa_dict
-        db['max_n'] = max_n
+    arpa_dict, vocab, model_order = pylm.read_arpa(arpa_file)
 
 for line in sys.stdin:
-    for ngram in pylm.ngrams(line, max_n):
-        ngram_str = ' '.join(ngram)
-        print(ngram_str, arpa_dict.get(ngram_str))
+    words_original = pylm.tokenize(line)
+    words = pylm.handle_oov(words_original, vocab)
+    for index, word in list(enumerate(words))[1:]:
+        n_gram = words[max(0, index-model_order+1):index+1]
+        prob, matched = pylm.prob_backoff(n_gram, arpa_dict)
+        print(words_original[index]+'=', matched, prob)

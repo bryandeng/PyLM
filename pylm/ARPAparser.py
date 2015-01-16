@@ -25,4 +25,6 @@ def read_arpa(arpa_file):
                     else:
                         arpa_dict[entry[1]] = (float(entry[0]), )
 
+    vocab.remove('<unk>')  # rule out "<unk>"
+
     return arpa_dict, vocab, model_order

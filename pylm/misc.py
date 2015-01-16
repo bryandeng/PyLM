@@ -22,4 +22,6 @@ def tokens2str(words):
 
 
 def handle_oov(words, vocabulary):
-    return [word if word in vocabulary else '<unk>' for word in words]
+    handled = [word if word in vocabulary else '<unk>' for word in words]
+    oov_count = len([word for word in words if word not in vocabulary])
+    return handled, oov_count

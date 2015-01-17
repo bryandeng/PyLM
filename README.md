@@ -21,7 +21,7 @@ https://github.com/bryandeng/PyLM
 Just clone this repo:
 
 ```
-git clone https://github.com/bryandeng/PyLM
+git clone https://github.com/bryandeng/PyLM.git
 ```
 
 For now you don't need to install it. Go into its directory and have a try.
